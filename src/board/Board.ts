@@ -1,6 +1,7 @@
 export class Board {
     private width   : number;
     private height  : number;
+    private units   : number[][];
 
     constructor(width: number, height: number) {
         this.width = width;

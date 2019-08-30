@@ -14,6 +14,17 @@
                 "unit"
             ],
             "port": 9229
+        },      
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Inttest",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "test",
+                "int"
+            ],
+            "port": 9229
         },
     ]
 }
