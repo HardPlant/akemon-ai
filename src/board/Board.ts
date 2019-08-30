@@ -15,6 +15,8 @@ export class Board {
         return Math.abs(dest_x - src_x) + Math.abs(dest_y - src_y);
     }
     addUnit(unit: Unit) {
+        unit.turnStrategy.board = this;
+
         return this.units.push(unit);
     }
 
@@ -32,5 +34,14 @@ export class Board {
         return typeof(index) === "undefined" ? 
             minUnits[Math.floor(minUnits.length * Math.random())]
             : minUnits[index];
+    }
+
+    /**
+     * starts a session, makes 
+     */
+    startSession() {
+        this.units.forEach((unit)=>{
+            setTimeout(unit.processTurn, 1000 / unit.speed);
+        });
     }
 }
