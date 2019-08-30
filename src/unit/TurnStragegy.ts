@@ -1,2 +1,3 @@
 export interface TurnStrategy {
+    processTurn();
 }

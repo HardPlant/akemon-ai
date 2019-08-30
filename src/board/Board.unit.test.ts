@@ -8,11 +8,11 @@ describe("smoke test", () => {
     });
 
     it("distance", () => {
-        let mockSrcUnit: Unit = {
+        let mockSrcUnit = {
             x: 0,
             y: 0,
         };
-        let mockDestUnit: Unit = {
+        let mockDestUnit = {
             x: 3,
             y: 4,
         };
