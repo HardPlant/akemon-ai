@@ -12,10 +12,20 @@ export class Board {
         this.height = height;
         this.units = [];
     }
-
+    /**
+     * Get Manhattan Distance (Chess-like Board game Distance)
+     * @param src_x 
+     * @param src_y 
+     * @param dest_x 
+     * @param dest_y 
+     */
     public static getDistance(src_x: number, src_y: number, dest_x: number, dest_y: number) {
         return Math.abs(dest_x - src_x) + Math.abs(dest_y - src_y);
     }
+    /**
+     * add unit and register this board
+     * @param unit 
+     */
     addUnit(unit: Unit) {
         if (unit.turnStrategy) {
             unit.turnStrategy.board = this;
@@ -39,7 +49,10 @@ export class Board {
             minUnits[Math.floor(minUnits.length * Math.random())]
             : minUnits[index];
     }
-
+    /**
+     * issue one turn
+     * all unit will get a turn each 1000/unit.speed
+     */
     issueOneTurn() {
         this.units.forEach((unit)=>{
             console.log(`processing ${unit.name}`);
@@ -48,12 +61,16 @@ export class Board {
     }
     /**
      * starts a session
-     * all unit will get a turn each 1000/unit.speed
+     * 1000 millisecond interval
      */
     startSession() {
         this.timeout = setInterval(this.issueOneTurn, 1000);
     }
 
+    /**
+     * end session
+     * all unit will be stopped
+     */
     endSession() {
         if (this.timeout) {
             clearInterval(this.timeout);
