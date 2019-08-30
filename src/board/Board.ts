@@ -1,10 +1,10 @@
 import { Unit } from "../unit/Unit";
 
 export class Board {
-    private width: number;
-    private height: number;
-    public units: Unit[];
+    width: number;
+    height: number;
     timeout: NodeJS.Timeout;
+    public units: Unit[];
 
 
     constructor(width: number, height: number) {
@@ -22,6 +22,15 @@ export class Board {
     public static getDistance(src_x: number, src_y: number, dest_x: number, dest_y: number) {
         return Math.abs(dest_x - src_x) + Math.abs(dest_y - src_y);
     }
+
+    isUnitPresent(x: number, y: number) {
+        let filter = this.units
+            .filter((unit)=>unit.x === x)
+            .filter((unit)=>unit.y === y);
+        
+        return filter.length === 0 ? true : false
+    }
+
     /**
      * add unit and register this board
      * @param unit 
@@ -30,6 +39,7 @@ export class Board {
         if (unit.turnStrategy) {
             unit.turnStrategy.board = this;
         }
+        unit.board = this;
 
         return this.units.push(unit);
     }
