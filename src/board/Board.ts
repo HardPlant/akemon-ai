@@ -29,6 +29,8 @@ export class Board {
         let nearestLength = Math.min.apply(Math, candidatesLength);
         let minUnits = candidates.filter(item => Board.getDistance(item.x, item.y, controlUnit.x, controlUnit.y) == nearestLength);
 
-        return !index ? minUnits[Math.floor(minUnits.length * Math.random())] : minUnits[index];
+        return typeof(index) === "undefined" ? 
+            minUnits[Math.floor(minUnits.length * Math.random())]
+            : minUnits[index];
     }
 }

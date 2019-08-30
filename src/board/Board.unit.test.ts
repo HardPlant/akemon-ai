@@ -117,4 +117,54 @@ describe("Board.getNearestOpponent", ()=> {
         expect(board.getNearestOpponent(mockUnitA)).toBe(mockUnitC);
         expect(board.getNearestOpponent(mockUnitB)).toBe(mockUnitD);
     });
+    /** A, -, -, -
+     *  -, C, -, -
+     *  -, -, B, -
+     *  -, -, -, D
+     *  1: A, B // 2:C, D
+     *  A:C, B: C or D
+     */ 
+    it("choose nearest Opponent at 2:2", () => {
+        let board: Board = new Board(4, 4);
+        
+        let mockUnitA : Unit = {
+            x:0,
+            y:0,
+            forces: "0",
+            move: ()=>{},
+            attackable: ()=>{},
+        };
+        let mockUnitB : Unit = {
+            x:2,
+            y:2,
+            forces: "0",
+            move: ()=>{},
+            attackable: ()=>{},
+        };
+        let mockUnitC : Unit = {
+            x:1,
+            y:1,
+            forces: "1",
+            move: ()=>{},
+            attackable: ()=>{},
+        };
+        let mockUnitD : Unit = {
+            x:3,
+            y:3,
+            forces: "1",
+            move: ()=>{},
+            attackable: ()=>{},
+        };
+        
+        board.addUnit(mockUnitA);
+        board.addUnit(mockUnitB);
+        board.addUnit(mockUnitC);
+        board.addUnit(mockUnitD);
+
+        expect(board.getNearestOpponent(mockUnitA)).toBe(mockUnitC);
+        expect(board.getNearestOpponent(mockUnitB, 0)).toBe(mockUnitC);
+        expect(board.getNearestOpponent(mockUnitB, 1)).toBe(mockUnitD);
+        expect(board.getNearestOpponent(mockUnitC, 0)).toBe(mockUnitA);
+        expect(board.getNearestOpponent(mockUnitC, 1)).toBe(mockUnitB);
+    });
 });
