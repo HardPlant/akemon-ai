@@ -12,7 +12,7 @@ export class MeleeStrategy implements TurnStrategy {
     }
 
     processTurn() {
-        let target = this.board.getNearestUnit(this.controlUnit);
+        let target = this.board.getNearestOpponent(this.controlUnit);
 
         if (this.controlUnit.attackable(target)) {
 

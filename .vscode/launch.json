@@ -13,6 +13,7 @@
                 "test",
                 "unit"
             ],
+            "timeout": 999999,
             "port": 9229
         },      
         {
