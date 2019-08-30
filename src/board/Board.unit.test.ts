@@ -2,22 +2,23 @@ import { Board } from "./Board";
 import { Unit } from "../unit/Unit";
 describe("smoke test", () => {
     it("runs", () => {
-        var board = new Board(10, 4);
+        let board: Board = new Board(10, 4);
 
-        expect(typeof (Board)).toBe("function");
+        expect(typeof (board)).toBe("object");
     });
 
     it("distance", () => {
-        var mockSrcUnit = {
-            getX: jest.fn(() => 0),
-            getY: jest.fn(() => 0)
+        let mockSrcUnit: Unit = {
+            x: 0,
+            y: 0,
         };
-        var mockDestUnit = {
-            getX: jest.fn(() => 3),
-            getY: jest.fn(() => 4)
+        let mockDestUnit: Unit = {
+            x: 3,
+            y: 4,
         };
 
-        expect(Board.getDistance(mockSrcUnit.getX(), mockSrcUnit.getY()
-            ,mockDestUnit.getX(), mockDestUnit.getY())).toBe(7);
+        expect(Board.getDistance(
+             mockSrcUnit.x, mockSrcUnit.y
+            ,mockDestUnit.x, mockDestUnit.y)).toBe(7);
     });
 });
