@@ -1,6 +1,8 @@
 import { Board } from "./Board";
 import { Unit } from "../unit/Unit";
 import { arrowFunctionExpression } from "@babel/types";
+import { MeleeStrategy } from "../unit/MeleeStrategy";
+import { TurnStrategy } from "../unit/TurnStragegy";
 describe("smoke test", () => {
     it("runs", () => {
         let board: Board = new Board(10, 4);
@@ -166,5 +168,89 @@ describe("Board.getNearestOpponent", ()=> {
         expect(board.getNearestOpponent(mockUnitB, 1)).toBe(mockUnitD);
         expect(board.getNearestOpponent(mockUnitC, 0)).toBe(mockUnitA);
         expect(board.getNearestOpponent(mockUnitC, 1)).toBe(mockUnitB);
+    });
+});
+
+
+describe("Board.issueOneTurn", () => {
+    jest.useFakeTimers();
+    it("starts one-unit session", ()=> {
+        let board: Board = new Board(4, 4);
+        let isCalled = 0;
+        let sampleStrategy : TurnStrategy = {
+            board: undefined,
+            processTurn: ()=>{
+                console.log("[Unit1] Processed");
+                isCalled++;
+            }
+        };
+
+        let mockUnit1 : Unit = {
+            name: "mockUnit1",
+            forces: "0",
+            speed: 100,
+            move: ()=>{},
+            attackable: ()=>{},
+            turnStrategy: sampleStrategy,
+            processTurn: ()=>{sampleStrategy.processTurn()}
+        };
+
+        board.addUnit(mockUnit1);
+        expect(board.units.length === 1);
+
+        board.issueOneTurn();
+        
+        jest.runOnlyPendingTimers();
+        
+        expect(isCalled).toBe(1);
+        expect(setTimeout).toHaveBeenCalledTimes(1);
+        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 10);
+    });
+    it("starts two-unit session", ()=> {
+        let board: Board = new Board(4, 4);
+        let isCalled = 0;
+        let sampleStrategy1 : TurnStrategy = {
+            board: undefined,
+            processTurn: ()=>{
+                isCalled++;
+            }
+        };
+        let sampleStrategy2 : TurnStrategy = {
+            board: undefined,
+            processTurn: ()=>{
+                isCalled++;
+            }
+        };
+        let mockUnit1 : Unit = {
+            name: "mockUnit1",
+            forces: "0",
+            speed: 100,
+            move: ()=>{},
+            attackable: ()=>{},
+            turnStrategy: sampleStrategy1,
+            processTurn: ()=>{sampleStrategy1.processTurn()}
+        };
+
+        let mockUnit2 : Unit = {
+            name: "mockUnit2",
+            forces: "0",
+            speed: 500,
+            move: ()=>{},
+            attackable: ()=>{},
+            turnStrategy: sampleStrategy2,
+            processTurn: ()=>{sampleStrategy2.processTurn()}
+        };
+
+        board.addUnit(mockUnit1);
+        board.addUnit(mockUnit2);
+        expect(board.units.length === 2);
+
+        board.issueOneTurn();
+        
+        jest.runOnlyPendingTimers();
+        
+        expect(isCalled).toBe(2);
+        expect(setTimeout).toHaveBeenCalledTimes(3);
+        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 2);
     });
 });

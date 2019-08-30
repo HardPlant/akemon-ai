@@ -4,6 +4,8 @@ export class Board {
     private width: number;
     private height: number;
     public units: Unit[];
+    timeout: NodeJS.Timeout;
+
 
     constructor(width: number, height: number) {
         this.width = width;
@@ -15,7 +17,9 @@ export class Board {
         return Math.abs(dest_x - src_x) + Math.abs(dest_y - src_y);
     }
     addUnit(unit: Unit) {
-        unit.turnStrategy.board = this;
+        if (unit.turnStrategy) {
+            unit.turnStrategy.board = this;
+        }
 
         return this.units.push(unit);
     }
@@ -36,12 +40,23 @@ export class Board {
             : minUnits[index];
     }
 
-    /**
-     * starts a session, makes 
-     */
-    startSession() {
+    issueOneTurn() {
         this.units.forEach((unit)=>{
+            console.log(`processing ${unit.name}`);
             setTimeout(unit.processTurn, 1000 / unit.speed);
         });
+    }
+    /**
+     * starts a session
+     * all unit will get a turn each 1000/unit.speed
+     */
+    startSession() {
+        this.timeout = setInterval(this.issueOneTurn, 1000);
+    }
+
+    endSession() {
+        if (this.timeout) {
+            clearInterval(this.timeout);
+        }
     }
 }
