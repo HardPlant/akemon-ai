@@ -17,29 +17,34 @@ export class MeleeUnit implements Unit {
     range: number;
 
     move(direct: string) {
+        if (!this.board) {
+            console.error("board is undefined");
+            return;
+        }
+
         if (direct === "up") {
             if (this.board.isUnitPresent(this.x, this.y + 1)) return;
 
-            this.y < this.board.height ? this.y + 1 : this.board.height;
+            this.y < this.board.height ? this.y += 1 : this.board.height;
         }
         if (direct === "down") {
             if (this.board.isUnitPresent(this.x, this.y - 1)) return;
 
-            this.y > 0 ? this.y - 1 : 0;
+            this.y > 0 ? this.y -= 1 : 0;
         }
         if (direct === "left") {
             if (this.board.isUnitPresent(this.x - 1, this.y)) return;
 
-            this.x < this.board.width ? this.x + 1 : this.board.width;
+            this.x < this.board.width ? this.x= + 1 : this.board.width;
         }
         if (direct === "right") {
             if (this.board.isUnitPresent(this.x + 1, this.y)) return;
-            this.x > 0 ? this.x - 1 : 0;
+            this.x > 0 ? this.x -= 1 : 0;
         }
     }
 
     attack(target: Unit) {
-        
+
     }
 
     attackable(target: Unit) {
